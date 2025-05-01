@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     container_name: superstatic
     ports:
-      - "80:80"               # Host-Port 5648 → Container-Port 80
+      - "80:80"               # Host-Port 80 → Container-Port 80
     volumes:
       - /home/rpiuser/WE_superstatic/WE_superstatic:/usr/share/nginx/html:ro
     restart: unless-stopped
