@@ -1,0 +1,15 @@
+# Datei: docker-compose.yml
+version: '3.8'
+
+services:
+  superstatic:
+    build:
+      context: .                # Pfad, in dem Dockerfile liegt
+      dockerfile: Dockerfile
+    container_name: superstatic
+    ports:
+      - "80:80"               # Host-Port 5648 → Container-Port 80
+    volumes:
+      - /home/rpiuser/WE_superstatic/WE_superstatic:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
