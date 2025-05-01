@@ -4,13 +4,34 @@ on:
     branches:
       - main
 
+# Erlaubt dem Action-Token, eure gh-pages-Branch zu beschreiben
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1) Repository klonen – mit voller History (fetch-depth: 0)
       - uses: actions/checkout@v3
-      - name: Deploy
+        with:
+          fetch-depth: 0
+
+      # 2) (Optional) Git-User konfigurieren, damit der Commit sauber gemergt wird
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # 3) Pages deployen
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
+          # automatisches Token, keine weitere Einrichtung nötig
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Ziel-Branch, aus dem GitHub Pages später serviert
+          publish_branch: gh-pages
+          # Ordner mit euren statischen Dateien (bei Root-Deploy: „.“)
           publish_dir: .
+          # schiebt die gh-pages-Branch als neuen Orphan-Branch
+          force_orphan: true
