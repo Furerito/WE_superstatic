@@ -1,232 +1,333 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-    <title>Tetris</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Die wunderbare Welt der Giraffen</title>
     <style>
         body {
-            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f5e9;
+            color: #4a4a4a;
+        }
+        
+        header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1547721064-da6cfb341d50');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
         }
-        canvas {
-            border: 2px solid #333;
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        #game-over {
-            display: none;
-            color: red;
-            font-size: 24px;
-            margin-top: 20px;
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        nav {
+            background-color: #e3b564;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav li {
+            margin: 0 20px;
+        }
+        
+        nav a {
+            color: #4a3500;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        h2 {
+            color: #8c6e20;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        
+        h3 {
+            color: #8c6e20;
+            margin-bottom: 10px;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        .fact {
+            background-color: #fff3d8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid #e3b564;
+        }
+        
+        footer {
+            background-color: #4a3500;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 10px 0;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Tetris</h1>
-    <div>Score: <span id="score">0</span></div>
-    <canvas id="tetris" width="240" height="400"></canvas>
-    <div id="game-over">Game Over!</div>
-
-    <script>
-        const canvas = document.getElementById('tetris');
-        const context = canvas.getContext('2d');
-        const scoreElement = document.getElementById('score');
-        const gameOverElement = document.getElementById('game-over');
-
-        const BLOCK_SIZE = 20;
-        const COLS = 12;
-        const ROWS = 20;
-        let score = 0;
-
-        // Tetris-Spielfeld
-        const board = Array(ROWS).fill().map(() => Array(COLS).fill(0));
-
-        // Tetromino-Formen
-        const SHAPES = [
-            [[1, 1, 1, 1]], // I
-            [[1, 1], [1, 1]], // O
-            [[1, 1, 1], [0, 1, 0]], // T
-            [[1, 1, 1], [1, 0, 0]], // L
-            [[1, 1, 1], [0, 0, 1]], // J
-            [[1, 1, 0], [0, 1, 1]], // S
-            [[0, 1, 1], [1, 1, 0]]  // Z
-        ];
-
-        const COLORS = [
-            '#000000', // Platzhalter
-            '#00f0f0', // I
-            '#f0f000', // O
-            '#a000f0', // T
-            '#f0a000', // L
-            '#0000f0', // J
-            '#00f000', // S
-            '#f00000'  // Z
-        ];
-
-        let currentPiece = null;
-        let currentPieceX = 0;
-        let currentPieceY = 0;
-        let currentColor = 1;
-        let gameLoop = null;
-        let gameOver = false;
-
-        function createPiece() {
-            const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-            currentPiece = shape;
-            currentPieceX = Math.floor(COLS / 2) - Math.floor(shape[0].length / 2);
-            currentPieceY = 0;
-            currentColor = Math.floor(Math.random() * (COLORS.length - 1)) + 1;
-        }
-
-        function drawBoard() {
-            context.fillStyle = '#ffffff';
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            for (let y = 0; y < ROWS; y++) {
-                for (let x = 0; x < COLS; x++) {
-                    if (board[y][x]) {
-                        context.fillStyle = COLORS[board[y][x]];
-                        context.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
-                    }
-                }
-            }
-        }
-
-        function drawPiece() {
-            context.fillStyle = COLORS[currentColor];
-            for (let y = 0; y < currentPiece.length; y++) {
-                for (let x = 0; x < currentPiece[y].length; x++) {
-                    if (currentPiece[y][x]) {
-                        context.fillRect(
-                            (currentPieceX + x) * BLOCK_SIZE,
-                            (currentPieceY + y) * BLOCK_SIZE,
-                            BLOCK_SIZE - 1,
-                            BLOCK_SIZE - 1
-                        );
-                    }
-                }
-            }
-        }
-
-        function collision() {
-            for (let y = 0; y < currentPiece.length; y++) {
-                for (let x = 0; x < currentPiece[y].length; x++) {
-                    if (currentPiece[y][x]) {
-                        const newX = currentPieceX + x;
-                        const newY = currentPieceY + y;
-                        if (
-                            newX < 0 ||
-                            newX >= COLS ||
-                            newY >= ROWS ||
-                            board[newY][newX]
-                        ) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        function mergePiece() {
-            for (let y = 0; y < currentPiece.length; y++) {
-                for (let x = 0; x < currentPiece[y].length; x++) {
-                    if (currentPiece[y][x]) {
-                        board[currentPieceY + y][currentPieceX + x] = currentColor;
-                    }
-                }
-            }
-        }
-
-        function clearLines() {
-            let linesCleared = 0;
-            for (let y = ROWS - 1; y >= 0; y--) {
-                if (board[y].every(cell => cell !== 0)) {
-                    board.splice(y, 1);
-                    board.unshift(Array(COLS).fill(0));
-                    linesCleared++;
-                    y++;
-                }
-            }
-            if (linesCleared > 0) {
-                score += linesCleared * 100;
-                scoreElement.textContent = score;
-            }
-        }
-
-        function rotate() {
-            const newPiece = currentPiece[0].map((_, i) =>
-                currentPiece.map(row => row[i]).reverse()
-            );
-            const oldPiece = currentPiece;
-            currentPiece = newPiece;
-            if (collision()) {
-                currentPiece = oldPiece;
-            }
-        }
-
-        function moveDown() {
-            currentPieceY++;
-            if (collision()) {
-                currentPieceY--;
-                mergePiece();
-                clearLines();
-                createPiece();
-                if (collision()) {
-                    gameOver = true;
-                    gameOverElement.style.display = 'block';
-                    clearInterval(gameLoop);
-                }
-            }
-        }
-
-        function moveLeft() {
-            currentPieceX--;
-            if (collision()) {
-                currentPieceX++;
-            }
-        }
-
-        function moveRight() {
-            currentPieceX++;
-            if (collision()) {
-                currentPieceX--;
-            }
-        }
-
-        document.addEventListener('keydown', event => {
-            if (gameOver) return;
-
-            switch (event.keyCode) {
-                case 37: // Left
-                    moveLeft();
-                    break;
-                case 39: // Right
-                    moveRight();
-                    break;
-                case 40: // Down
-                    moveDown();
-                    break;
-                case 38: // Up (rotate)
-                    rotate();
-                    break;
-            }
-            draw();
-        });
-
-        function draw() {
-            drawBoard();
-            drawPiece();
-        }
-
-        function init() {
-            createPiece();
-            gameLoop = setInterval(() => {
-                moveDown();
-                draw();
-            }, 1000);
-        }
-
-        init();
-    </script>
+    <header>
+        <h1>Die wunderbare Welt der Giraffen</h1>
+        <p class="subtitle">Entdecke die majestätischen Riesen der Savanne</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#ueber">Über Giraffen</a></li>
+            <li><a href="#fakten">Faszinierende Fakten</a></li>
+            <li><a href="#unterarten">Unterarten</a></li>
+            <li><a href="#galerie">Galerie</a></li>
+            <li><a href="#schutz">Giraffenschutz</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="ueber">
+            <h2>Über Giraffen</h2>
+            <p>Die Giraffe (Giraffa) ist eine afrikanische Säugetiergattung aus der Ordnung der Paarhufer. Giraffen sind die höchsten landlebenden Tiere der Welt und können eine Höhe von bis zu 6 Metern erreichen. Mit ihrem charakteristischen langen Hals und dem gefleckten Fell sind sie eines der bekanntesten und beliebtesten Wildtiere der Welt.</p>
+            
+            <p>Giraffen leben in den Savannen Afrikas und ernähren sich hauptsächlich von Blättern, die sie mit ihrer langen Zunge von hohen Bäumen pflücken. Mit ihrer einzigartigen Anatomie können sie Nahrungsquellen erreichen, die für andere Pflanzenfresser unerreichbar sind.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1574068468668-a05a11f871da" alt="Giraffenkopf">
+                    <div class="card-content">
+                        <h3>Einzigartige Anatomie</h3>
+                        <p>Trotz ihres langen Halses haben Giraffen wie die meisten Säugetiere nur sieben Halswirbel - diese sind jedoch stark verlängert. Ihr Herz ist mit etwa 11 kg außergewöhnlich groß und leistungsstark, um das Blut bis zum Gehirn pumpen zu können.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1534692499281-57d0f101789b" alt="Giraffengruppe">
+                    <div class="card-content">
+                        <h3>Sozialverhalten</h3>
+                        <p>Giraffen leben in lockeren Herden ohne feste Hierarchie. Die Gruppen können zwischen 10 und 20 Tieren umfassen und setzen sich je nach Jahreszeit und Nahrungsangebot immer wieder neu zusammen.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1577114995803-d8ce0e2b4aa9" alt="Giraffe mit Jungtier">
+                    <div class="card-content">
+                        <h3>Nachwuchs</h3>
+                        <p>Nach einer Tragzeit von etwa 15 Monaten bringt die Giraffenkuh ein einzelnes Jungtier zur Welt. Das Kalb ist bei der Geburt bereits etwa 1,8 Meter groß und kann nach wenigen Stunden laufen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="fakten">
+            <h2>Faszinierende Fakten</h2>
+            
+            <div class="fact">
+                <strong>Rekordhalter:</strong> Mit einer Höhe von bis zu 6 Metern sind Giraffen die höchsten landlebenden Tiere der Welt.
+            </div>
+            
+            <div class="fact">
+                <strong>Fingerabdruck der Natur:</strong> Das Fleckenmuster jeder Giraffe ist einzigartig, ähnlich wie ein menschlicher Fingerabdruck.
+            </div>
+            
+            <div class="fact">
+                <strong>Schlafgewohnheiten:</strong> Giraffen schlafen nur etwa 20 Minuten bis maximal 2 Stunden pro Tag, oft im Stehen und in kurzen 5-Minuten-Intervallen.
+            </div>
+            
+            <div class="fact">
+                <strong>Blutdruck-Wunder:</strong> Um Blut zum Gehirn zu pumpen, haben Giraffen einen der höchsten Blutdrücke im Tierreich. Spezielle Ventile in den Blutgefäßen verhindern, dass zu viel Blut in den Kopf schießt, wenn sie sich bücken.
+            </div>
+            
+            <div class="fact">
+                <strong>Lange Zunge:</strong> Die bläulich-schwarze Zunge einer Giraffe kann bis zu 53 cm lang werden und ist perfekt angepasst, um Blätter zwischen den Dornen der Akazienbäume zu pflücken.
+            </div>
+        </section>
+        
+        <section id="unterarten">
+            <h2>Unterarten der Giraffe</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Masai_Giraffe_at_Mikumi_National_Park.jpg/800px-Masai_Giraffe_at_Mikumi_National_Park.jpg" alt="Massai-Giraffe">
+                    <div class="card-content">
+                        <h3>Massai-Giraffe</h3>
+                        <p>Die Massai-Giraffe (Giraffa tippelskirchi) hat unregelmäßige, sternförmige Flecken mit tiefgezackten Rändern. Sie lebt in Kenia und Tansania.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/South_African_giraffe%2C_male.jpg/800px-South_African_giraffe%2C_male.jpg" alt="Südafrikanische Giraffe">
+                    <div class="card-content">
+                        <h3>Südafrikanische Giraffe</h3>
+                        <p>Die Südafrikanische Giraffe (Giraffa giraffa giraffa) hat große, rauten- oder sternförmige Flecken. Sie lebt in Südafrika, Namibia, Botswana, Zimbabwe und Mozambique.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Rothschild%27s_Giraffe_%28Giraffa_camelopardalis_rothschildi%29_male_%287068054987%29%2C_crop_%26_edit.jpg/800px-Rothschild%27s_Giraffe_%28Giraffa_camelopardalis_rothschildi%29_male_%287068054987%29%2C_crop_%26_edit.jpg" alt="Rothschild-Giraffe">
+                    <div class="card-content">
+                        <h3>Rothschild-Giraffe</h3>
+                        <p>Die Rothschild-Giraffe (Giraffa camelopardalis rothschildi) hat große, eckige Flecken und ist daran zu erkennen, dass ihre Unterschenkel ungefleckt sind. Sie lebt in Uganda und Kenia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="galerie">
+            <h2>Giraffen-Galerie</h2>
+            
+            <div class="gallery">
+                <img src="https://images.unsplash.com/photo-1553425300-8c56e9a2b1f1" alt="Giraffe im Sonnenuntergang">
+                <img src="https://images.unsplash.com/photo-1538127426967-75a6c73f6d20" alt="Giraffe im Portrait">
+                <img src="https://images.unsplash.com/photo-1566936737687-8bbedfc7930a" alt="Giraffen in der Savanne">
+                <img src="https://images.unsplash.com/photo-1526095179574-86e545346ae6" alt="Giraffenbaby mit Mutter">
+                <img src="https://images.unsplash.com/photo-1492079872025-d2d831c7d533" alt="Giraffe frisst Blätter">
+                <img src="https://images.unsplash.com/photo-1614073348210-9afa252d23d0" alt="Giraffe von unten">
+            </div>
+        </section>
+        
+        <section id="schutz">
+            <h2>Giraffenschutz</h2>
+            
+            <p>In den letzten drei Jahrzehnten ist die Giraffenpopulation in freier Wildbahn um fast 40% zurückgegangen. Heute gelten Giraffen als gefährdet und stehen auf der Roten Liste der bedrohten Arten der IUCN.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44" alt="Giraffenschutz">
+                    <div class="card-content">
+                        <h3>Bedrohungen</h3>
+                        <p>Die Hauptbedrohungen für Giraffen sind Lebensraumverlust durch Landwirtschaft und menschliche Siedlungen, Wilderei für Fleisch und andere Produkte sowie bewaffnete Konflikte in ihren Lebensräumen.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1572383672419-ab35444a6934" alt="Naturschutz">
+                    <div class="card-content">
+                        <h3>Schutzmaßnahmen</h3>
+                        <p>Verschiedene Organisationen setzen sich für den Schutz von Giraffen ein, indem sie Schutzgebiete einrichten, Anti-Wilderei-Maßnahmen durchführen und Programme zur Wiederansiedelung unterstützen.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1605013343009-c30d3a5241e1" alt="Giraffenforschung">
+                    <div class="card-content">
+                        <h3>Wie Du helfen kannst</h3>
+                        <p>Unterstütze Naturschutzorganisationen, die sich für Giraffen einsetzen, informiere Dich und andere über die Situation der Giraffen und respektiere bei Safari-Reisen die Tiere und ihren Lebensraum.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Die wunderbare Welt der Giraffen | Alle Rechte vorbehalten</p>
+        <p>Bilder von Unsplash und Wikimedia Commons</p>
+    </footer>
 </body>
 </html>
