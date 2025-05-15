@@ -1,0 +1,8 @@
+# Site settings
+title: Die wunderbare Welt der Giraffen
+description: Informative Website über Giraffen, ihre Unterarten, Lebensweise und Schutz
+baseurl: "/WE_superstatic"
+url: ""
+
+# Build settings
+markdown: kramdown
