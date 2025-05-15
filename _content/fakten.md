@@ -1,9 +1,3 @@
----
-layout: section
-title: Faszinierende Fakten
-section_id: fakten
----
-
 ## Faszinierende Fakten
 
 **Rekordhalter:** Mit einer Höhe von bis zu 6 Metern sind Giraffen die höchsten landlebenden Tiere der Welt.

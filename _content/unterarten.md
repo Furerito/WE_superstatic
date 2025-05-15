@@ -1,9 +1,3 @@
----
-layout: section
-title: Unterarten der Giraffe
-section_id: unterarten
----
-
 ## Unterarten der Giraffe
 
 Die Giraffen werden in mehrere Unterarten eingeteilt, die sich vor allem durch ihr Fleckenmuster und ihre geografische Verbreitung unterscheiden.

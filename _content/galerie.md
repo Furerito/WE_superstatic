@@ -1,9 +1,3 @@
----
-layout: section
-title: Giraffen-Galerie
-section_id: galerie
----
-
 ## Giraffen-Galerie
 
 Die majestätischen Giraffen in ihrer natürlichen Umgebung - eine Sammlung beeindruckender Bilder dieser einzigartigen Tiere.

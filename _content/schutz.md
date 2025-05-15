@@ -1,9 +1,3 @@
----
-layout: section
-title: Giraffenschutz
-section_id: schutz
----
-
 ## Giraffenschutz
 
 In den letzten drei Jahrzehnten ist die Giraffenpopulation in freier Wildbahn um fast 40% zurückgegangen. Heute gelten Giraffen als gefährdet und stehen auf der Roten Liste der bedrohten Arten der IUCN.
