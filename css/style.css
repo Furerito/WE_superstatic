@@ -210,3 +210,30 @@ footer {
         margin: 10px 0;
     }
 }
+
+/* Zusätzliches CSS für Markdown-Content-Bereiche */
+.content-section {
+    margin-bottom: 50px;
+}
+
+.content-section h2 {
+    color: #8c6e20;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.content-section h3 {
+    color: #8c6e20;
+    margin-bottom: 10px;
+}
+
+.content-section p {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+.content-section strong {
+    font-weight: bold;
+    color: #4a3500;
+}
