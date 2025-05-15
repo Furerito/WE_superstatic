@@ -17,21 +17,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      # 2) (Optional) Git-User konfigurieren, damit der Commit sauber gemergt wird
-      - name: Configure Git user
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      # 2) Ruby-Umgebung einrichten
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
 
-      # 3) Pages deployen
+      # 3) Jekyll-Site bauen
+      - name: Build with Jekyll
+        run: |
+          bundle install
+          bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      # 4) Pages deployen
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          # automatisches Token, keine weitere Einrichtung nötig
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Ziel-Branch, aus dem GitHub Pages später serviert
           publish_branch: gh-pages
-          # Ordner mit euren statischen Dateien (bei Root-Deploy: „.“)
-          publish_dir: .
-          # schiebt die gh-pages-Branch als neuen Orphan-Branch
+          publish_dir: ./_site
           force_orphan: true

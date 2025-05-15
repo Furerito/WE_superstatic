@@ -4,21 +4,21 @@ title: Die wunderbare Welt der Giraffen
 ---
 
 <section id="ueber">
-{% include_relative ueber.md %}
+{% include_relative _content/ueber.md %}
 </section>
 
 <section id="fakten">
-{% include_relative fakten.md %}
+{% include_relative _content/fakten.md %}
 </section>
 
 <section id="unterarten">
-{% include_relative unterarten.md %}
+{% include_relative _content/unterarten.md %}
 </section>
 
 <section id="galerie">
-{% include_relative galerie.md %}
+{% include_relative _content/galerie.md %}
 </section>
 
 <section id="schutz">
-{% include_relative schutz.md %}
+{% include_relative _content/schutz.md %}
 </section>
