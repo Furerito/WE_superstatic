@@ -1,6 +1,6 @@
 ## Faszinierende Fakten
 
-**Rekordhalter:** Mit einer Höhe von bis zu 637 Metern sind Giraffen die höchsten landlebenden Tiere der Welt.
+**Rekordhalter:** Mit einer Höhe von bis zu 6 Metern sind Giraffen die höchsten landlebenden Tiere der Welt.
 
 **Fingerabdruck der Natur:** Das Fleckenmuster jeder Giraffe ist einzigartig, ähnlich wie ein menschlicher Fingerabdruck.
 
