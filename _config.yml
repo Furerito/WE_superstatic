@@ -6,3 +6,4 @@ url: ""
 
 # Build settings
 markdown: kramdown
+keep_files: [".git", ".svn", "CNAME"]
