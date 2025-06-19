@@ -13,7 +13,7 @@ https://ecograder.com/report/PVXM2nVbygzlk7p2MUXDWQaD
 Hosting auf Github ist letztlich in der Azure Cloud von Microsoft.
 Wegen der vielen Standorte der Azure Cloud kann sicher nicht generell behauptet werden dass das Hosting nicht zumindest einigermassen grün sei.
 Die Bewertung geht direkt auf 0. Nicht irgendwo dazwischen, was einfach auch unplausibel ist.
-Sobald ich die Website auf meinem Privaten Raspberry Pi hoste, wird eine top Bewertung ausgegeben. Ecograder hat dabei keine Ahning, dass ich den Pi mit einem völlig überdimensionierten Dieselgenerator betreibe und die Abgase durch ein Rohrsystem aus giftigem Plastik direkt in den Regenwald leite.
+Sobald ich die Website auf meinem Privaten Raspberry Pi hoste, wird eine top Bewertung ausgegeben. Ecograder hat dabei keine Ahnung, dass ich den Pi mit einem völlig überdimensionierten Dieselgenerator betreibe und die Abgase ungefiltert durch ein Rohrsystem aus giftigem Plastik direkt in den Regenwald leite.
 
 
 # Static Site Generator: Jekyll
