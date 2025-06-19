@@ -16,11 +16,11 @@ Die Bewertung geht direkt auf 0. Nicht irgendwo dazwischen, was einfach auch unp
 Sobald ich die Website auf meinem Privaten Raspberry Pi hoste, wird eine top Bewertung ausgegeben. Ecograder hat dabei keine Ahnung, dass ich den Pi mit einem völlig überdimensionierten Dieselgenerator betreibe und die Abgase ungefiltert durch ein Rohrsystem aus giftigem Plastik direkt in den Regenwald leite.
 
 
-# Static Site Generator: Jekyll
+## Static Site Generator: Jekyll
 
 Für unsere Giraffen-Website haben wir Jekyll als Static Site Generator (SSG) gewählt. Jekyll ist ein Ruby-basierter SSG, der Markdown-Dateien in statische HTML-Webseiten konvertiert.
 
-## Funktionsweise
+### Funktionsweise
 
 Jekyll verarbeitet die Markdown-Dateien in unserem `_content` Verzeichnis und fügt deren Inhalt in die entsprechenden Sektionen der HTML-Struktur ein. Wir nutzen Liquid-Templates (`{% ... %}`) in der `index.md`, um die Markdown-Inhalte einzubinden und zu HTML zu konvertieren:
 
