@@ -139,6 +139,11 @@ footer {
   margin-top: 2rem;
 }
 
+a:focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
 /* Barrierefreiheit */
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -147,10 +152,6 @@ footer {
   }
 }
 
-a:focus {
-  outline: 3px solid var(--primary-color);
-  outline-offset: 3px;
-}
 
 /* Responsives Design */
 @media (max-width: 768px) {

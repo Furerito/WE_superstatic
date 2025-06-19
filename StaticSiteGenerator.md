@@ -15,6 +15,9 @@ Jekyll verarbeitet die Markdown-Dateien in unserem `_content` Verzeichnis und f�
 
 Bei jedem Push zum Repository baut ein GitHub-Workflow die Website automatisch und stellt sie über GitHub Pages zur Verfügung.
 
+
+# Variantenentscheid
+
 ## Vorteile
 - **Nahtlose GitHub Pages Integration**: Jekyll ist der Standard-SSG für GitHub Pages
 - **Einfache Inhaltspflege**: Inhalte können als Markdown-Dateien gepflegt werden, ohne HTML zu bearbeiten
@@ -23,6 +26,7 @@ Bei jedem Push zum Repository baut ein GitHub-Workflow die Website automatisch u
 - **Kostenlose Bereitstellung**: GitHub Pages bietet kostenloses Hosting für Jekyll-Websites
 - **Schnelle Ladezeiten**: Generiert statische HTML-Dateien ohne serverseitige Verarbeitung
 - **Sicherheit**: Keine dynamischen Komponenten, die angreifbar wären
+
 
 ## Nachteile
 - **Ruby-Abhängigkeit**: Lokale Entwicklung erfordert Ruby-Installation
